@@ -1,0 +1,50 @@
+*----------------------------------------------------------------------*
+***INCLUDE LZSTVARVO01 .
+*----------------------------------------------------------------------*
+
+*&---------------------------------------------------------------------*
+*&      Module  MOD_STATUS_0100  OUTPUT
+*&---------------------------------------------------------------------*
+MODULE mod_status_0100 OUTPUT.
+  PERFORM status_0100 .
+ENDMODULE.                 " MOD_STATUS_0100  OUTPUT
+*&---------------------------------------------------------------------*
+*&      Module  MOD_CREATE_OBJECT_0100  OUTPUT
+*&---------------------------------------------------------------------*
+MODULE mod_create_object_0100 OUTPUT.
+  PERFORM create_object_0100.
+ENDMODULE.                 " MOD_CREATE_OBJECT_0100  OUTPUT
+*----------------------------------------------------------------------*
+*  MODULE CTRL_TAB_ACTIVE_TAB_SET OUTPUT
+*----------------------------------------------------------------------*
+MODULE mod_ctrl_tab_active_tab_set OUTPUT.
+  ctrl_tab-activetab = w_ctrl_tab-pressed_tab.
+  CASE w_ctrl_tab-pressed_tab.
+    WHEN c_ctrl_tab-tab1.
+      w_ctrl_tab-subscreen = '0201'.
+    WHEN c_ctrl_tab-tab2.
+      w_ctrl_tab-subscreen = '0202'.
+    WHEN c_ctrl_tab-tab3.
+      w_ctrl_tab-subscreen = '0203'.
+    WHEN OTHERS.
+  ENDCASE.
+ENDMODULE.                    "CTRL_TAB_ACTIVE_TAB_SET OUTPUT
+*&---------------------------------------------------------------------*
+*&      Module  MOD_SET_SOURCE_CODE  OUTPUT
+*&---------------------------------------------------------------------*
+MODULE mod_set_source_code_0201 OUTPUT.
+  PERFORM set_source_code_0201.
+ENDMODULE.                 " MOD_SET_SOURCE_CODE  OUTPUT44
+
+*&---------------------------------------------------------------------*
+*&      Module  MOD_SET_SOURCE_CODE  OUTPUT
+*&---------------------------------------------------------------------*
+MODULE mod_set_source_code_0202 OUTPUT.
+  PERFORM set_source_code_0202.
+ENDMODULE.                    "MOD_SET_SOURCE_CODE_0202 OUTPUT
+*&---------------------------------------------------------------------*
+*&      Module  MOD_SET_SOURCE_CODE_0203  OUTPUT
+*&---------------------------------------------------------------------*
+MODULE mod_set_source_code_0203 OUTPUT.
+  PERFORM set_source_code_0203.
+ENDMODULE.                 " MOD_SET_SOURCE_CODE_0203  OUTPUT

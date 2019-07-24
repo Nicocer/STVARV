@@ -1,0 +1,28 @@
+*----------------------------------------------------------------------*
+**INCLUDE LZSTVARVI01 .
+*---------------------------------------------------------------------*
+
+*&---------------------------------------------------------------------*
+*&      Module  USER_COMMAND_0100  INPUT
+*&---------------------------------------------------------------------*
+MODULE mod_user_command_0100 INPUT.
+  PERFORM user_command_0100.
+ENDMODULE.                 " USER_COMMAND_0100  INPUT
+
+
+*----------------------------------------------------------------------*
+*  MODULE CTRL_TAB_ACTIVE_TAB_GET INPUT
+*----------------------------------------------------------------------*
+MODULE ctrl_tab_active_tab_get INPUT.
+  v_ok_code = sy-ucomm.
+  CASE v_ok_code.
+    WHEN c_ctrl_tab-tab1.
+      w_ctrl_tab-pressed_tab = c_ctrl_tab-tab1.
+    WHEN c_ctrl_tab-tab2.
+      w_ctrl_tab-pressed_tab = c_ctrl_tab-tab2.
+    WHEN c_ctrl_tab-tab3.
+      w_ctrl_tab-pressed_tab = c_ctrl_tab-tab3.
+    WHEN OTHERS.
+
+  ENDCASE.
+ENDMODULE.                    "CTRL_TAB_ACTIVE_TAB_GET INPUT

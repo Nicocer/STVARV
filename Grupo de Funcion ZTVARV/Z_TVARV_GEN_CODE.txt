@@ -1,0 +1,15 @@
+FUNCTION Z_TVARV_GEN_CODE.
+*"--------------------------------------------------------------------
+*"*"Interfase local
+*"  IMPORTING
+*"     REFERENCE(EX_TVARVC) TYPE  TVARVC
+*"--------------------------------------------------------------------
+w_tvarvc = ex_tvarvc.
+
+  CALL SCREEN 100 STARTING AT 15 1 ."ENDING AT 140 30.
+
+
+
+
+
+ENDFUNCTION.

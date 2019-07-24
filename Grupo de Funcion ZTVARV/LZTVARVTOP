@@ -1,0 +1,23 @@
+FUNCTION-POOL ZTVARV.                      "MESSAGE-ID ..
+
+* INCLUDE LZSTVARVD...                       " Local class definition
+DATA: v_ok_code TYPE sy-ucomm,
+      w_tvarvc TYPE  tvarvc.
+DATA: o_container_edit TYPE REF TO cl_gui_custom_container,
+      o_abap_edit TYPE REF TO  cl_gui_abapedit,
+      o_custom_container_g TYPE REF TO cl_gui_custom_container,
+      o_gp_inst TYPE REF TO cl_gui_gp_pres.
+
+
+CONSTANTS: BEGIN OF c_ctrl_tab,
+             tab1 LIKE sy-ucomm VALUE 'CTRL_TAB_FC1',
+             tab2 LIKE sy-ucomm VALUE 'CTRL_TAB_FC2',
+             tab3 LIKE sy-ucomm VALUE 'CTRL_TAB_FC3',
+           END OF c_ctrl_tab.
+
+CONTROLS:  ctrl_tab TYPE TABSTRIP.
+DATA:      BEGIN OF w_ctrl_tab,
+             subscreen   LIKE sy-dynnr,
+             prog        LIKE sy-repid VALUE 'SAPLZTVARV',
+             pressed_tab LIKE sy-ucomm VALUE c_ctrl_tab-tab1,
+           END OF w_ctrl_tab.

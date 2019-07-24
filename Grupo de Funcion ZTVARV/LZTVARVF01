@@ -1,0 +1,498 @@
+*----------------------------------------------------------------------*
+***INCLUDE LZSTVARVF01 .
+*----------------------------------------------------------------------*
+*&---------------------------------------------------------------------*
+*&      Form  SET_SOURCE_CODE_201
+*&---------------------------------------------------------------------*
+FORM set_source_code_0201 .
+  DATA: lt_source TYPE STANDARD TABLE OF  char100.
+
+  CASE w_tvarvc-type .
+    WHEN 'P'.
+      PERFORM get_source_cab_p_0201 CHANGING lt_source.
+    WHEN 'S'.
+      PERFORM get_source_cab_s_0201 CHANGING lt_source.
+    WHEN OTHERS.
+      PERFORM get_source_cab_p_0201 CHANGING lt_source.
+  ENDCASE.
+
+
+  CALL METHOD o_abap_edit->set_text
+    EXPORTING
+      table           = lt_source
+    EXCEPTIONS
+      error_dp        = 1
+      error_dp_create = 2
+      error_code_page = 3
+      OTHERS          = 4.
+  IF sy-subrc <> 0.
+    MESSAGE ID sy-msgid TYPE sy-msgty NUMBER sy-msgno
+               WITH sy-msgv1 sy-msgv2 sy-msgv3 sy-msgv4.
+  ENDIF.
+ENDFORM.                    " SET_SOURCE_CODE_201
+
+*&---------------------------------------------------------------------*
+*&      Form  SET_SOURCE_CODE_201
+*&---------------------------------------------------------------------*
+FORM set_source_code_0202 .
+  CALL METHOD o_abap_edit->delete_text
+    EXPORTING
+      from_line = 1
+      from_pos  = 1
+      to_line   = 100
+      to_pos    = 1000.
+
+
+  DATA: lt_source TYPE STANDARD TABLE OF  char100.
+  CASE w_tvarvc-type .
+    WHEN 'P'.
+      PERFORM get_source_cab_p_0202 CHANGING lt_source.
+    WHEN 'S'.
+      PERFORM get_source_cab_s_0202 CHANGING lt_source.
+    WHEN OTHERS.
+      PERFORM get_source_cab_p_0202 CHANGING lt_source.
+  ENDCASE.
+
+
+  CALL METHOD o_abap_edit->set_text
+    EXPORTING
+      table           = lt_source
+    EXCEPTIONS
+      error_dp        = 1
+      error_dp_create = 2
+      error_code_page = 3
+      OTHERS          = 4.
+  IF sy-subrc <> 0.
+    MESSAGE ID sy-msgid TYPE sy-msgty NUMBER sy-msgno
+               WITH sy-msgv1 sy-msgv2 sy-msgv3 sy-msgv4.
+  ENDIF.
+ENDFORM.                    " SET_SOURCE_CODE_201
+
+
+*&---------------------------------------------------------------------*
+*&      Form  GET_SOURCE_CAB
+*&---------------------------------------------------------------------*
+FORM get_source_cab_p_0201 CHANGING p_t_source TYPE crmt_bsp_string_tab.
+  DATA:   lw_source  TYPE  char100.
+
+  PERFORM get_header CHANGING p_t_source.
+
+  lw_source = '***'.
+  APPEND lw_source TO p_t_source.
+  lw_source = '*1.A- Get Simple Value- Method "GET" without "CALL METHOD"'. "#EC NOTEXT
+  APPEND lw_source TO p_t_source.
+  lw_source = '***'.
+  APPEND lw_source TO p_t_source.
+  lw_source = 'DATA: lv_var_1 TYPE tvarvc-low.'. "#EC NOTEXT
+  APPEND lw_source TO p_t_source. "#EC NOTEXT
+  lw_source = ''. "#EC NOTEXT
+  APPEND lw_source TO p_t_source.
+  CONCATENATE ' lv_var_1 = zcl_tvarv=>get_value( i_name = ''' w_tvarvc-name  ''' ).' INTO lw_source  . "#EC NOTEXT
+  APPEND lw_source TO p_t_source.
+  lw_source = ''.
+  APPEND lw_source TO p_t_source.
+
+ENDFORM. " GET_SOURCE_CAB
+
+*&---------------------------------------------------------------------*
+*&      Form  GET_SOURCE_CAB
+*&---------------------------------------------------------------------*
+FORM get_source_cab_p_0202 CHANGING p_t_source TYPE crmt_bsp_string_tab.
+  DATA:   lw_source  TYPE  char100.
+
+  PERFORM get_header CHANGING p_t_source.
+
+  lw_source = '***'.
+  APPEND lw_source TO p_t_source.
+  lw_source = '*2.A- Get Simple Value- Method "GET" with "CALL METHOD"'. "#EC NOTEXT
+  APPEND lw_source TO p_t_source.
+  lw_source = '***'.
+  APPEND lw_source TO p_t_source.
+  lw_source = 'DATA: lv_var_2 TYPE tvarvc-low.'. "#EC NOTEXT
+  APPEND lw_source TO p_t_source.
+  lw_source = ''.
+  APPEND lw_source TO p_t_source.
+  lw_source = 'CALL METHOD zcl_tvarv=>get_value'. "#EC NOTEXT
+  APPEND lw_source TO p_t_source.
+  lw_source = '  EXPORTING'. "#EC NOTEXT
+  APPEND lw_source TO p_t_source.
+  CONCATENATE '   i_name = ''' w_tvarvc-name  '''' INTO lw_source  .
+  APPEND lw_source TO p_t_source.
+  lw_source = '  RECEIVING'. "#EC NOTEXT
+  APPEND lw_source TO p_t_source.
+  lw_source ='    r_value = lv_var_2   ' . "#EC NOTEXT
+  APPEND lw_source TO p_t_source.
+  lw_source ='*  EXCEPTIONS' . "#EC NOTEXT
+  APPEND lw_source TO p_t_source.
+  lw_source ='*    ex_not_found = 1' . "#EC NOTEXT
+  APPEND lw_source TO p_t_source.
+  lw_source ='*    others       = 2' . "#EC NOTEXT
+  APPEND lw_source TO p_t_source.
+  lw_source ='.' .
+  APPEND lw_source TO p_t_source.
+  lw_source ='IF sy-subrc <> 0.' . "#EC NOTEXT
+  APPEND lw_source TO p_t_source.
+  lw_source ='* MESSAGE ID SY-MSGID TYPE SY-MSGTY NUMBER SY-MSGNO' . "#EC NOTEXT
+  APPEND lw_source TO p_t_source.
+  lw_source ='*            WITH SY-MSGV1 SY-MSGV2 SY-MSGV3 SY-MSGV4.' . "#EC NOTEXT
+  APPEND lw_source TO p_t_source.
+  lw_source ='ENDIF.' . "#EC NOTEXT
+  APPEND lw_source TO p_t_source.
+
+ENDFORM. " GET_SOURCE_CAB
+
+*&---------------------------------------------------------------------*
+*&      Form  CREATE_OBJECT_0100
+*&---------------------------------------------------------------------*
+FORM create_object_0100 .
+  DATA: lt_source TYPE STANDARD TABLE OF  char100.
+***
+*1- Crear Contenedor
+***
+  IF  o_container_edit IS INITIAL.
+    CREATE OBJECT o_container_edit
+      EXPORTING
+        container_name              = 'PROG_CAB'
+      EXCEPTIONS
+        cntl_error                  = 1
+        cntl_system_error           = 2
+        create_error                = 3
+        lifetime_error              = 4
+        lifetime_dynpro_dynpro_link = 5.
+  ENDIF.
+***
+*2- Crear Editor ABAP
+***
+  IF  o_abap_edit IS INITIAL.
+    CREATE OBJECT o_abap_edit
+      EXPORTING
+        parent           = o_container_edit
+        max_number_chars = 333.
+    o_abap_edit->set_readonly_mode( readonly_mode = 1 ).
+  ENDIF.
+
+
+ENDFORM. " CREATE_OBJECT_0100
+*&---------------------------------------------------------------------*
+*&      Form  GET_SOURCE_CAB
+*&---------------------------------------------------------------------*
+*FORM get_source_cab_p CHANGING p_t_source TYPE crmt_bsp_string_tab.
+*  DATA:   lw_source  TYPE  char100.
+**          lw_tvarvc  TYPE  tvarvc.
+*
+***  CHECK ref_ticket IS NOT INITIAL.
+*
+*  lw_source = '*----------------------------------------------'. "#EC NOTEXT
+*  APPEND lw_source TO p_t_source.
+*  lw_source = '* Coding generated automatically'. "#EC NOTEXT
+*  APPEND lw_source TO p_t_source.
+*  lw_source = '* Date: July-2015'. "#EC NOTEXT
+*  APPEND lw_source TO p_t_source.
+*  lw_source = '*Note: You can use "CALL METHOD or not" for extract the value of the STVARV '."#EC NOTEXT
+*  APPEND lw_source TO p_t_source.
+*  lw_source = '* ZCL_TVARV=>GET '. "#EC NOTEXT
+*  APPEND lw_source TO p_t_source.
+*  lw_source = '* ZCL_TVARV=>GET_BY_SEP '. "#EC NOTEXT
+*  APPEND lw_source TO p_t_source.
+*  lw_source = '* ZCL_TVARV=>GET_RANGE '. "#EC NOTEXT
+*  APPEND lw_source TO p_t_source.
+*  lw_source = '*----------------------------------------------'.  "#EC NOTEXT
+*  APPEND lw_source TO p_t_source.
+*
+*  lw_source = ''.
+*  APPEND lw_source TO p_t_source.
+*  lw_source = '***'.
+*  APPEND lw_source TO p_t_source.
+*  lw_source = '*1.A- Get Simple Value- Method "GET" without "CALL METHOD"'.
+*  APPEND lw_source TO p_t_source.
+*  lw_source = '***'.
+*  APPEND lw_source TO p_t_source.
+*  lw_source = 'DATA: lv_var_1 TYPE w_tvarvc-value.'.
+*  APPEND lw_source TO p_t_source.
+*  lw_source = ''.
+*  APPEND lw_source TO p_t_source.
+*  CONCATENATE ' lv_var_1 = zcl_tvarv=>get_constant( i_name = ''' w_tvarvc-name  ''' ).' INTO lw_source  .
+*  APPEND lw_source TO p_t_source.
+*  lw_source = ''.
+*  APPEND lw_source TO p_t_source.
+*
+*
+*
+*  lw_source = '***'.
+*  APPEND lw_source TO p_t_source.
+*  lw_source = '*1.B- Get Simple Value- Method "GET" with "CALL METHOD"'.
+*  APPEND lw_source TO p_t_source.
+*  lw_source = '***'.
+*  APPEND lw_source TO p_t_source.
+*  lw_source = 'DATA: lv_var_2 TYPE w_tvarvc-value.'.
+*  APPEND lw_source TO p_t_source.
+*  lw_source = ''.
+*  APPEND lw_source TO p_t_source.
+*  lw_source = 'CALL METHOD zcl_tvarv=>get'. "#EC NOTEXT
+*  APPEND lw_source TO p_t_source.
+*  lw_source = '  EXPORTING'. "#EC NOTEXT
+*  APPEND lw_source TO p_t_source.
+*  CONCATENATE '   i_name = ''' w_tvarvc-name  '''' INTO lw_source  . "#EC NOTEXT
+*  APPEND lw_source TO p_t_source.
+*  lw_source = '  RECEIVING'. "#EC NOTEXT
+*  APPEND lw_source TO p_t_source.
+*  lw_source ='    r_return = lv_var. ' . "#EC NOTEXT
+*  APPEND lw_source TO p_t_source.
+*
+*
+*
+*  lw_source = ''.
+*  lw_source = '***'.
+*  APPEND lw_source TO p_t_source.
+*  lw_source = '*2.B- Obtención de Variable con separado - Método completo (GET_CONSTANT_BY_SEP)'. "#EC NOTEXT
+*  APPEND lw_source TO p_t_source.
+*  lw_source = '***'.
+*  APPEND lw_source TO p_t_source.
+*  lw_source = 'DATA: lv_campo_1 TYPE tvarvc-low,'. "#EC NOTEXT
+*  APPEND lw_source TO p_t_source.
+*  lw_source = '      lv_campo_2 TYPE tvarvc-low,'. "#EC NOTEXT
+*  APPEND lw_source TO p_t_source.
+*  lw_source = '      lv_campo_3 TYPE tvarvc-low.'. "#EC NOTEXT
+*  APPEND lw_source TO p_t_source.
+*  lw_source = ''.
+*  APPEND lw_source TO p_t_source.
+*  lw_source = 'CALL METHOD ZCL_TVARV=>get_constant_by_sep'. "#EC NOTEXT
+*  APPEND lw_source TO p_t_source.
+*  lw_source = '  EXPORTING'. "#EC NOTEXT
+*  APPEND lw_source TO p_t_source.
+*  CONCATENATE '    i_name = ''' w_tvarvc-name  '''' INTO lw_source  .
+*  APPEND lw_source TO p_t_source.
+*  lw_source = '    i_sep           = ''#'''. "#EC NOTEXT
+*  APPEND lw_source TO p_t_source.
+*  lw_source = '    i_num_parameter = 1'. "#EC NOTEXT
+*  APPEND lw_source TO p_t_source.
+*  lw_source = 'RECEIVING'. "#EC NOTEXT
+*  APPEND lw_source TO p_t_source.
+*  lw_source = 'e_return        = lv_campo_1.'. "#EC NOTEXT
+*  APPEND lw_source TO p_t_source.
+*
+*
+*ENDFORM. " GET_SOURCE_CAB
+*&---------------------------------------------------------------------*
+*&      Form  USER_COMMAND_0100
+*&---------------------------------------------------------------------*
+FORM user_command_0100 .
+  CASE v_ok_code.
+    WHEN 'BACK'.
+      LEAVE TO SCREEN 0.
+    WHEN 'EXIT'.
+      LEAVE TO SCREEN 0.
+    WHEN 'CANCEL'.
+      LEAVE TO SCREEN 0.
+    WHEN 'COPY_CODE'. "Portapapeles
+      PERFORM ok_cpy_clpb .
+  ENDCASE.
+ENDFORM. " USER_COMMAND_0100
+*&---------------------------------------------------------------------*
+*&      Form  STATUS_0100
+*&---------------------------------------------------------------------*
+FORM status_0100 .
+  SET PF-STATUS 'STATUS_0100'.
+  SET TITLEBAR 'TIT_0100'.
+ENDFORM. " STATUS_0100
+
+*&---------------------------------------------------------------------*
+*&      Form  GET_SOURCE_CAB
+*&---------------------------------------------------------------------*
+FORM get_source_cab_s CHANGING p_t_source TYPE crmt_bsp_string_tab.
+  DATA:   lw_source  TYPE  char100.
+  lw_source = 'No avaialbe for Select Option'. "#EC NOTEXT
+  APPEND lw_source TO p_t_source.
+
+ENDFORM. " GET_SOURCE_CAB
+*&---------------------------------------------------------------------*
+*&      Form  OK_CPY_CLPB
+*&---------------------------------------------------------------------*
+
+FORM ok_cpy_clpb .
+  DATA:  lv_ret_code  TYPE i,
+         lv_cont_reg   TYPE i,
+         lt_clipboard TYPE STANDARD TABLE OF char100.
+
+  CALL METHOD o_abap_edit->get_text
+*  EXPORTING
+*    name                   =
+    IMPORTING
+      table                  =  lt_clipboard
+*    is_modified            =
+    EXCEPTIONS
+      error_dp               = 1
+      error_cntl_call_method = 2
+      OTHERS                 = 3
+          .
+  IF sy-subrc <> 0.
+    MESSAGE ID sy-msgid TYPE sy-msgty NUMBER sy-msgno
+               WITH sy-msgv1 sy-msgv2 sy-msgv3 sy-msgv4.
+  ENDIF.
+
+
+  CALL METHOD cl_gui_frontend_services=>clipboard_export
+    IMPORTING
+      data                 = lt_clipboard
+    CHANGING
+      rc                   = lv_ret_code
+    EXCEPTIONS
+      cntl_error           = 1
+      error_no_gui         = 2
+      not_supported_by_gui = 3
+      OTHERS               = 4.
+  IF sy-subrc <> 0.
+    MESSAGE ID sy-msgid TYPE sy-msgty NUMBER sy-msgno
+               WITH sy-msgv1 sy-msgv2 sy-msgv3 sy-msgv4.
+  ELSE.
+    lv_cont_reg = lines( lt_clipboard ).
+    MESSAGE s005(ztvarv) WITH lv_cont_reg .
+  ENDIF.
+ENDFORM. " OK_CPY_CLPB
+*&---------------------------------------------------------------------*
+*&      Form  GET_HEADER
+*&---------------------------------------------------------------------*
+FORM get_header  CHANGING  p_t_source TYPE crmt_bsp_string_tab.
+  DATA:   lw_source  TYPE  char100.
+  lw_source = '*----------------------------------------------'.
+  APPEND lw_source TO p_t_source.
+  lw_source = '* Automatically generated code'. "#EC NOTEXT
+  APPEND lw_source TO p_t_source.
+  lw_source = '* Date: July-2015'. "#EC NOTEXT
+  APPEND lw_source TO p_t_source.
+  lw_source = '* Note: You can use "CALL METHOD or not" for extract the value of the STVARV '. "#EC NOTEXT
+  APPEND lw_source TO p_t_source.
+  lw_source = '*----------------------------------------------'.
+  APPEND lw_source TO p_t_source.
+  lw_source = ''.
+  APPEND lw_source TO p_t_source.
+ENDFORM.                    " GET_HEADER
+*&---------------------------------------------------------------------*
+*&      Form  SET_SOURCE_CODE_0203
+*&---------------------------------------------------------------------*
+
+FORM set_source_code_0203 .
+  DATA: lt_source TYPE STANDARD TABLE OF  char100.
+  CASE w_tvarvc-type .
+    WHEN 'P'.
+      PERFORM get_source_cab_p_0203 CHANGING lt_source.
+    WHEN 'S'.
+      PERFORM get_source_cab_s CHANGING lt_source.
+    WHEN OTHERS.
+      PERFORM get_source_cab_p_0203 CHANGING lt_source.
+  ENDCASE.
+
+
+  CALL METHOD o_abap_edit->set_text
+    EXPORTING
+      table           = lt_source
+    EXCEPTIONS
+      error_dp        = 1
+      error_dp_create = 2
+      error_code_page = 3
+      OTHERS          = 4.
+  IF sy-subrc <> 0.
+    MESSAGE ID sy-msgid TYPE sy-msgty NUMBER sy-msgno
+               WITH sy-msgv1 sy-msgv2 sy-msgv3 sy-msgv4.
+  ENDIF.
+ENDFORM.                    " SET_SOURCE_CODE_0203
+*&---------------------------------------------------------------------*
+*&      Form  GET_SOURCE_CAB
+*&---------------------------------------------------------------------*
+FORM get_source_cab_p_0203 CHANGING p_t_source TYPE crmt_bsp_string_tab.
+  DATA:   lw_source  TYPE  char100.
+
+  PERFORM get_header CHANGING p_t_source..
+
+  lw_source = 'DATA: lv_value_sep TYPE tvarvc-low.'. "#EC NOTEXT
+  APPEND lw_source TO p_t_source.
+  lw_source = ''.
+  APPEND lw_source TO p_t_source.
+  lw_source = 'CALL METHOD zcl_tvarv=>get_value_by_sep'. "#EC NOTEXT
+  APPEND lw_source TO p_t_source.
+  lw_source = '  EXPORTING'. "#EC NOTEXT
+  APPEND lw_source TO p_t_source.
+  CONCATENATE '    i_name = ''' w_tvarvc-name  '''' INTO lw_source  . "#EC NOTEXT
+  APPEND lw_source TO p_t_source.
+  lw_source = '    i_sep           = ''#'''. "#EC NOTEXT
+  APPEND lw_source TO p_t_source.
+  lw_source = '    i_param_num = 1'. "#EC NOTEXT
+  APPEND lw_source TO p_t_source.
+  lw_source = '  RECEIVING'."#EC NOTEXT
+  APPEND lw_source TO p_t_source.
+  lw_source = '    r_value        = lv_value_sep.'."#EC NOTEXT
+  APPEND lw_source TO p_t_source.
+
+ENDFORM. " GET_SOURCE_CAB
+
+*&---------------------------------------------------------------------*
+*&      Form  GET_SOURCE_CAB
+*&---------------------------------------------------------------------*
+FORM get_source_cab_s_0201 CHANGING p_t_source TYPE crmt_bsp_string_tab.
+  DATA:   lw_source  TYPE  char100.
+
+  PERFORM get_header CHANGING p_t_source.
+
+  lw_source = '***'.
+  APPEND lw_source TO p_t_source.
+  lw_source = '*1.A- Obtención de Variable Range - Método abreviado'. "#EC NOTEXT
+  APPEND lw_source TO p_t_source.
+  lw_source = '***'.
+  APPEND lw_source TO p_t_source.
+  lw_source = 'DATA: lr_data TYPE RANGE OF  char20. "Replace for my RANGE!!!!!! Ex: lr_bukrs TYPE RANGE bukrs.'. "#EC NOTEXT
+  APPEND lw_source TO p_t_source.
+  lw_source = ''.
+  APPEND lw_source TO p_t_source.
+  CONCATENATE ' zcl_tvarv=>get_value_in_range(  EXPORTING i_name = ''' w_tvarvc-name  ''' ' INTO lw_source  . "#EC NOTEXT
+  APPEND lw_source TO p_t_source.
+  lw_source = '                                 IMPORTING e_range = lr_data ).'. "#EC NOTEXT
+  APPEND lw_source TO p_t_source.
+  lw_source = ''.
+  APPEND lw_source TO p_t_source.
+
+ENDFORM. " GET_SOURCE_CAB
+*&---------------------------------------------------------------------*
+*&      Form  GET_SOURCE_CAB
+*&---------------------------------------------------------------------*
+FORM get_source_cab_s_0202 CHANGING p_t_source TYPE crmt_bsp_string_tab.
+  DATA:   lw_source  TYPE  char100.
+
+  PERFORM get_header CHANGING p_t_source.
+
+  lw_source = '***'.
+  APPEND lw_source TO p_t_source.
+  lw_source = '*1.B- Obtención de Variable Range - Método completo'. "#EC NOTEXT
+  APPEND lw_source TO p_t_source.
+  lw_source = '***'.
+  APPEND lw_source TO p_t_source.
+  lw_source = '  DATA: lr_data_2 TYPE RANGE OF  char20. "Reeplace for my Range!!!!! Ex: lr_bukrs TYPE RANGE bukrs.'. "#EC NOTEXT
+  APPEND lw_source TO p_t_source.
+  lw_source = ''.
+  APPEND lw_source TO p_t_source.
+  lw_source = ' CALL METHOD ZCL_TVARV=>get_value_in_range'. "#EC NOTEXT
+  APPEND lw_source TO p_t_source.
+  lw_source = '  EXPORTING'. "#EC NOTEXT
+  APPEND lw_source TO p_t_source.
+  CONCATENATE '   i_name = ''' w_tvarvc-name  '''' INTO lw_source  . "#EC NOTEXT
+  APPEND lw_source TO p_t_source.
+  lw_source = '  IMPORTING'. "#EC NOTEXT
+  APPEND lw_source TO p_t_source.
+  lw_source ='    e_range = lr_data_2 ' . "#EC NOTEXT
+  APPEND lw_source TO p_t_source.
+  lw_source ='*  EXCEPTIONS' . "#EC NOTEXT
+  APPEND lw_source TO p_t_source.
+  lw_source ='*    ex_not_found = 1' ."#EC NOTEXT
+  APPEND lw_source TO p_t_source.
+  lw_source ='*    others       = 2' . "#EC NOTEXT
+  APPEND lw_source TO p_t_source.
+  lw_source ='        .' .
+  APPEND lw_source TO p_t_source.
+  lw_source ='IF sy-subrc <> 0.' . "#EC NOTEXT
+  APPEND lw_source TO p_t_source.
+  lw_source ='* MESSAGE ID SY-MSGID TYPE SY-MSGTY NUMBER SY-MSGNO' ."#EC NOTEXT
+  APPEND lw_source TO p_t_source.
+  lw_source ='*            WITH SY-MSGV1 SY-MSGV2 SY-MSGV3 SY-MSGV4.' . "#EC NOTEXT
+  APPEND lw_source TO p_t_source.
+  lw_source ='ENDIF.' . "#EC NOTEXT
+  APPEND lw_source TO p_t_source.
+ENDFORM. " GET_SOURCE_CAB
